@@ -83,7 +83,6 @@ void log_s( char *s );
 typedef struct {
     bool touched ;
     bool comm_err ;
-//    long pkt_time ;
     long lock_time ;
 } gpsinfo_t ;
 
@@ -117,17 +116,6 @@ typedef struct
 
 
 void ublox_init();
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-
-
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* GPSINFO_H */
 
