@@ -129,12 +129,6 @@ void gpsinfo_poll()
     hal_background();
 
     {
-//        long time = hal_millis();
-//        time -= gpsinfo.pkt_time;
-//        if( time < 0 ) {
-//            time += LONG_MAX;
-//            time++;
-//        }
         long time = timer_count();
         if( time > 2000L ) {
             // 2 seconds no info
