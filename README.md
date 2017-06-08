@@ -1,5 +1,5 @@
 
-# Disable U-blox condifuration
+# Disable U-blox initialization
 
 It is possible to skip the u-blox initialization. You have to remove the:
 
