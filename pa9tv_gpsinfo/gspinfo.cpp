@@ -4,6 +4,9 @@
  *  Created on May 5, 2017 10:13:42 PM by Simon IJskes
  * 
  * 
+ *  GpsInfo - Support software for a GPSOD
+ *  (c) Simon IJskes 2017
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -26,10 +29,6 @@
 #include <limits.h>
 
 gpsinfo_t gpsinfo;
-
-bool last_valid = 0;
-bool locked = 0;
-bool locked_long = 0;
 
 static inline void outch(void*, char c)
 {
@@ -71,8 +70,18 @@ void gpsinfo_disp()
     } else {
         set_time(gpsinfo.lock_time);
 
-        printf("val: %d ", nmea.valid);
-        printf("sats: %2d/%2d\n", nmea.sats_used, nmea.sats_inview);
+        if( nmea.valid ) {
+            if( gpsinfo.locked_stable ) {
+                printf("stable  ");
+            } else {
+                printf("locked  ");
+            }
+        } else {
+            printf("unlocked");
+        }
+        
+        //printf("val: %d ", nmea.valid);
+        printf(" sats: %2d/%2d\n", nmea.sats_used, nmea.sats_inview);
 
         printf("%02d:%02d:%02d  ", nmea.time.hr, nmea.time.min, nmea.time.sec);
         printf("%02d-%02d-%04d\n", nmea.date.day, nmea.date.mon, nmea.date.yr);
@@ -124,6 +133,8 @@ void signal_commerr()
     }
 }
 
+bool last_valid = 0;
+
 void gpsinfo_poll()
 {
     hal_background();
@@ -155,16 +166,15 @@ void gpsinfo_poll()
         if( nmea.valid != last_valid ) {
             if( nmea.valid ) {
                 last_mil = nmea_time;
-                gpsinfo.lock_time = 0;
-                locked = 1;
+                gpsinfo.locked = 1;
             } else {
                 gpsinfo.lock_time = 0;
-                locked = 0;
+                gpsinfo.locked = 0;
             }
             last_valid = nmea.valid;
         }
 
-        if( locked ) {
+        if( gpsinfo.locked ) {
 
             // calculate time step
             long diff = nmea_time - last_mil;
@@ -176,9 +186,19 @@ void gpsinfo_poll()
             last_mil = nmea_time;
 
             gpsinfo.lock_time += diff;
+            
         } else {
             last_mil = 0L;
+            
+            gpsinfo.lock_time = 0;
         }
+        
+        if( gpsinfo.lock_time > (long)STABLE_LOCK_TIME ) {
+            gpsinfo.locked_stable = true ;
+        } else {
+            gpsinfo.locked_stable = false ;            
+        }
+        hal_stable_lock(gpsinfo.locked_stable);
 
         nmea.touched = 0;
         gpsinfo.touched = 1;

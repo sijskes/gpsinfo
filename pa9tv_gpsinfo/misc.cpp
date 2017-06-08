@@ -4,6 +4,9 @@
  *  Created on May 7, 2017 9:24:18 PM by Simon IJskes
  * 
  * 
+ *  GpsInfo - Support software for a GPSOD
+ *  (c) Simon IJskes 2017
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or

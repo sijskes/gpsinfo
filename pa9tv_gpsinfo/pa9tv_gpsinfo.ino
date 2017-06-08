@@ -1,5 +1,6 @@
 /*
- *  Created by Simon IJskes
+ *  GpsInfo - Support software for a GPSOD
+ *  (c) Simon IJskes 2017
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +43,11 @@ void setup()
     hal_gps_open();
     
     timer_reset();
+    
+    hal_stable_lock(0);
+    
+    pinMode(LED_LONG_LOCKED,OUTPUT);
+    pinMode(LED_LONG_UNLOCKED,OUTPUT);
 }
 
 
@@ -122,5 +128,11 @@ void hal_gps_out(uint8_t c)
 long hal_millis()
 {
     return millis();
+}
+
+long hal_stable_lock( bool b )
+{
+    digitalWrite(LED_LONG_LOCKED,b);
+    digitalWrite(LED_LONG_UNLOCKED,!b);
 }
 

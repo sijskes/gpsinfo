@@ -3,6 +3,8 @@
  * 
  *  Created on Jun 3, 2017 3:20:04 PM by Simon IJskes
  * 
+ *  GpsInfo - Support software for a GPSOD
+ *  (c) Simon IJskes 2017
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

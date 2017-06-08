@@ -3,6 +3,9 @@
  * 
  *  Created on May 5, 2017 10:14:27 PM by Simon IJskes
  * 
+ *  GpsInfo - Support software for a GPSOD
+ *  (c) Simon IJskes 2017
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -23,7 +26,10 @@
 
 
 #define PA0JBB_GPSDO 1
-#define PA0JBB_UBLOX_INIT 1
+#define PA0JBB_UBLOX_INIT 1 // remove this line to disable ublox initialisation.
+
+#define STABLE_LOCK_TIME 60L
+
 
 //#define LCD_KEYPAD_SHIELD 1
 
@@ -35,6 +41,10 @@
 // native code on arduino.
 
 #include <avr/pgmspace.h>
+
+#define LED_LONG_LOCKED 9
+#define LED_LONG_UNLOCKED 8
+
 
 #define ROM PROGMEM
 #define LOG_C(c) /**/
@@ -83,7 +93,9 @@ void log_s( char *s );
 typedef struct {
     bool touched ;
     bool comm_err ;
-    long lock_time ;
+    long lock_time ; // in seconds.
+    bool locked_stable ;
+    bool locked ;
 } gpsinfo_t ;
 
 extern gpsinfo_t gpsinfo ;
@@ -99,6 +111,9 @@ void hal_disp_out(char c);
 
 void hal_background();
 long hal_millis();
+
+long hal_stable_lock( bool b );
+
 
 void timer_reset();
 long timer_count();

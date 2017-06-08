@@ -1,4 +1,13 @@
 
+# Disable U-blox condifuration
+
+It is possible to skip the u-blox initialization. You have to remove the:
+
+    #define PA0JBB_UBLOX_INIT 1
+
+line from gpsinfo.h
+
+
 # License
 
 This program is free software: you can redistribute it and/or modify
