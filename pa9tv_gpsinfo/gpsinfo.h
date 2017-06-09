@@ -3,7 +3,7 @@
  * 
  *  Created on May 5, 2017 10:14:27 PM by Simon IJskes
  * 
- *  GpsInfo - Support software for a GPSOD
+ *  GpsInfo - Support software for a GPSDO
  *  (c) Simon IJskes 2017
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
 #define PA0JBB_GPSDO 1
 #define PA0JBB_UBLOX_INIT 1 // remove this line to disable ublox initialisation.
 
-#define STABLE_LOCK_TIME 60L
+#define STABLE_LOCK_TIME (60L*60L*3L)
 
 
 //#define LCD_KEYPAD_SHIELD 1

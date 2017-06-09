@@ -4,7 +4,7 @@
  *  Created on May 5, 2017 10:13:42 PM by Simon IJskes
  * 
  * 
- *  GpsInfo - Support software for a GPSOD
+ *  GpsInfo - Support software for a GPSDO
  *  (c) Simon IJskes 2017
  * 
  * This program is free software: you can redistribute it and/or modify
