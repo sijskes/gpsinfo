@@ -1,4 +1,16 @@
 
+# Purpose
+
+This software is to provide feedback on the state of the GPS part of a 
+GPSDO GPS-disciplined-oscilator. It displays the number of satelites visible 
+and the satelites used. It counts the seconds the signal is valid, from the 
+moment it is valid, providing some indication of the quality of the 10Mhz TCXO 
+(temperature controlled crystal oscillator)
+it drives. It a certain lock time has passed, now 3 hours, 
+the indication in the display changed from locked into stable.
+The ubloc gps module is configured by the controller in a mode giving the best
+performance for timebase.
+
 # Disable U-blox initialization
 
 It is possible to skip the u-blox initialization. You have to remove the:
