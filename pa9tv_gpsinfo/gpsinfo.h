@@ -112,7 +112,7 @@ void hal_disp_out(char c);
 void hal_background();
 long hal_millis();
 
-long hal_stable_lock( bool b );
+void hal_stable_lock( bool b );
 
 
 void timer_reset();
