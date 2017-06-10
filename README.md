@@ -7,8 +7,8 @@ and the satelites used. It counts the seconds the signal is valid, from the
 moment it is valid, providing some indication of the quality of the 10Mhz TCXO 
 (temperature controlled crystal oscillator)
 it drives. If a certain lock time has passed, now 3 hours, 
-the indication in the display changed from locked into stable.
-The ublox gps module is configured by the controller in a mode giving the best
+the indication in the display is changed from locked into stable.
+The ublox gps module is configured by the controller into a mode giving the best
 performance for timebase generation. Powersave options are disabled, Glonass 
 support is disabled, and 10Mhz is selected as a time pulse output. The GPS and 
 Arduino Nano controller are combined with a 10 Mhz TCXO, the electronics and the concept
