@@ -24,20 +24,18 @@
 #ifndef GPSINFO_H
 #define GPSINFO_H
 
+// remove or comment line below to disable ublox initialisation.
+#define PA0JBB_UBLOX_INIT 1 
 
-#define PA0JBB_GPSDO 1
-#define PA0JBB_UBLOX_INIT 1 // remove this line to disable ublox initialisation.
-
+// change line below to modify stable time
 #define STABLE_LOCK_TIME (60L*60L*3L)
 
 
-//#define LCD_KEYPAD_SHIELD 1
-
-
-
-// these work automatically
-
+// below works automatically
 #if defined(ARDUINO)
+
+#define PA0JBB_GPSDO 1
+
 // native code on arduino.
 
 #include <avr/pgmspace.h>
@@ -54,6 +52,7 @@
 #elif defined(DESKTOP)
 // cross development environment, setup for x86 gcc.
 
+#define PA0JBB_GPSDO 1
 #define GPS_DUMMY 1
 #undef PA0JBB_UBLOX_INIT 
 
