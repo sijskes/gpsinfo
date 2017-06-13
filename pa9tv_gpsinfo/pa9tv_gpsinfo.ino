@@ -37,7 +37,7 @@ void setup()
     lcd.clear();
     lcd.print("GPSinfo - PA9TV");
     lcd.setCursor(0, 1);
-    lcd.print("Startup...");
+    lcd.print("Init:");
 
     gpsinfo_init();
     hal_gps_open();

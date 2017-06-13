@@ -72,7 +72,7 @@ static const uint8_t pattern[] ROM = {
 };
 
 int patidx = 0;
-bool ack_seen = 0;
+int ack_seen = 0;
 
 void ublox_poll()
 {
@@ -83,21 +83,31 @@ void ublox_poll()
     }
     
     uint8_t c8 = c ;
+    
+    if( patidx == 3 ) {
+        if( c8 == 0 ) {
+            ack_seen = -1 ;
+        } else if( c8 == 1 ) {
+            ack_seen = 1 ;
+        }
+        patidx = 0;
+        return ;
+    }
 
     if( c8 == pgm_read_byte_near(pattern + patidx) ) {
         patidx++;
     }
-
-    if( patidx >= 4 ) {
-        ack_seen = 1;
-        patidx = 0;
-    }
+    
+//
+//    if( patidx >= 4 ) {
+//        ack_seen = 1;
+//        patidx = 0;
+//    }
 }
 
-void ublox_send(int len, const uint8_t msg[] ROM)
+void ublox_send(int len, const uint8_t msg[] ROM, bool warn)
 {
     for(int attempt = 0; attempt < 3; attempt++) {
-        hal_disp_out('.');
         timer_reset();
         ack_seen = 0;
         for(int i = 0; i < len; i++) {
@@ -110,10 +120,18 @@ void ublox_send(int len, const uint8_t msg[] ROM)
         while (timer_count() < 2000) {
             // loop.
             ublox_poll();
-            if( ack_seen ) {
+            if( ack_seen > 0 ) {
+                hal_disp_out('+');
                 return;
             }
+            if( ack_seen < 0 ) {
+                if( warn ) {
+                    hal_disp_out('-');
+                    return;
+                }                
+            }
         }
+        hal_disp_out('!');
     }
     printf("\vGPSINFO PA9TV\n");
     printf("initialization error\n"); 
@@ -124,16 +142,21 @@ void ublox_init()
 {
 #ifdef PA0JBB_UBLOX_INIT
     hal_disp_out('G');
-    ublox_send(gnss_len, gnss);
+    ublox_send(gnss_len, gnss, 0);
     hal_disp_out('N');
-    ublox_send(nav5_len, nav5);
+    ublox_send(nav5_len, nav5, 0);
     hal_disp_out('P');
-    ublox_send(pms_len, pms);
+    ublox_send(pms_len, pms, 1);
     hal_disp_out('R');
-    ublox_send(rxm_len, rxm);
+    ublox_send(rxm_len, rxm, 0);
     hal_disp_out('T');
-    ublox_send(tp5_len, tp5);
+    ublox_send(tp5_len, tp5, 0);
     hal_disp_out('r');
+
+    timer_reset();
+    while (timer_count() < 2000) {
+      // nothing, just wait.
+    }    
 #endif    
 }
 
