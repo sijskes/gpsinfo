@@ -97,12 +97,6 @@ void ublox_poll()
     if( c8 == pgm_read_byte_near(pattern + patidx) ) {
         patidx++;
     }
-    
-//
-//    if( patidx >= 4 ) {
-//        ack_seen = 1;
-//        patidx = 0;
-//    }
 }
 
 void ublox_send(int len, const uint8_t msg[] ROM, bool warn)
